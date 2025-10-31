@@ -23,7 +23,6 @@ jobs:
     env:
       IMAGE_NAME: my-app                  # Docker image name
       IMAGE_TAG: ${{ github.sha }}        # Full commit SHA
-      IMAGE_TAG_SHORT: ${{ github.sha.substr(0, 7) }} # Short 7-character SHA
 
       USERNAME: MitalGadoya
 
@@ -44,7 +43,7 @@ jobs:
 
     - name: Push Docker image
       run: |
-      
+
         IMAGE_TAG_SHORT=$(git rev-parse --short HEAD)
 
         # If input version is empty, use commit SHA
