@@ -39,7 +39,7 @@ jobs:
     - name: Build Docker image
       run: |
         IMAGE_TAG_SHORT=$(git rev-parse --short HEAD)
-        docker build -t ${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT) .
+        docker build -t ${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT .
 
     - name: Push Docker image
       run: |
@@ -48,9 +48,9 @@ jobs:
 
         # If input version is empty, use commit SHA
         if [ -z "${{ github.event.inputs.version }}" ]; then
-          docker tag ${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT) ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT)
-          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT)
+          docker tag ${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT
         else
-          docker tag ${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT) ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}
+          docker tag ${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}
           docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}  
         fi
