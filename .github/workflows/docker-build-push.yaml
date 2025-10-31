@@ -39,7 +39,7 @@ jobs:
     - name: Build Docker image
       run: |
         IMAGE_TAG_SHORT=$(git rev-parse --short HEAD)
-        docker build -t ${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT).
+        docker build -t ${{ env.IMAGE_NAME }}:$(IMAGE_TAG_SHORT) .
 
     - name: Push Docker image
       run: |
