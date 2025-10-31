@@ -38,10 +38,14 @@ jobs:
     #     password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }} .
+      run: |
+        IMAGE_TAG_SHORT=$(git rev-parse --short HEAD)
+        docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }} .
 
     - name: Push Docker image
       run: |
+      
+        IMAGE_TAG_SHORT=$(git rev-parse --short HEAD)
 
         # If input version is empty, use commit SHA
         if [ -z "${{ github.event.inputs.version }}" ]; then
