@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --user -r requirements.txt
 
-COPY app.py .
+COPY app/app.py .
 
 # Stage 2: Final image (small, non-root)
 FROM python:3.12-alpine
