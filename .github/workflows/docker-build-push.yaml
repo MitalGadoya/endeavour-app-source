@@ -1,0 +1,52 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag for the Docker image'
+        required: true
+
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: my-app                  # Docker image name
+      IMAGE_TAG: ${{ github.sha }}        # Full commit SHA
+      IMAGE_TAG_SHORT: ${{ github.sha::7 }} # Short 7-character SHA
+      USERNAME: MitalGadoya
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # - name: Log in to Docker Hub
+    #   uses: docker/login-action@v2
+    #   with:
+    #     username: ${{ env.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker image
+      run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }} .
+
+    - name: Push Docker image
+      run: |
+
+        # If input version is empty, use commit SHA
+        if [ -z "${{ github.event.inputs.version }}" ]; then
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }} ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }}
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }}
+        else
+          docker tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_SHORT }} ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}
+          docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}  
+        fi
