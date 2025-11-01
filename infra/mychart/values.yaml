@@ -1,7 +1,7 @@
 appName: endeavour-app
 host: myapp.local
 imageName: mitalmgadoya/endeavour
-imageVersion: v2
+imageVersion: v1.0.1
 config:
   APP_NAME: Endeavour
   APP_VERSION: v.1.0.0
