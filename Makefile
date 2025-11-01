@@ -4,7 +4,7 @@
 
 # Variables
 IMAGE_NAME ?= endeavour
-IMAGE_TAG ?= v1.0.1
+IMAGE_TAG ?= v1.0.2
 DOCKERFILE ?= Dockerfile
 CONTEXT ?= .
 USERNAME ?= mitalmgadoya
