@@ -16,7 +16,12 @@ GIT_SHA := $(shell git rev-parse --short HEAD)
 .PHONY: setup build-local push-local build-sha push run clean
 
 setup: 
-	@echo "Setting up the environment..."
+	@echo "Setting up the environment...(Instructions for MACOS users)"
+	brew install python colima docker minikube helm kubectl
+
+test:
+	@echo "Running tests..."
+	python3 -m pytest -v
 # Add any setup commands here if needed
 
 build-local:

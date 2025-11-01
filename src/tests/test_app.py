@@ -1,7 +1,7 @@
 import pytest
 import os
 from importlib import reload
-import app as app_module
+from src import app as app_module
 
 @pytest.fixture
 def client(monkeypatch):

@@ -24,11 +24,39 @@ jobs:
       IMAGE_NAME: endeavour-app                 # Docker image name
       IMAGE_TAG: ${{ github.sha }}        # Full commit SHA
 
-      USERNAME: MitalGadoya
+      USERNAME: mitalmgadoya
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    # Set up Python 3.11
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    # Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install flake8 pytest yamllint
+
+    # Run Python linter
+    - name: Run flake8
+      run: |
+        flake8 src tests
+
+    # Run Python tests
+    - name: Run pytest
+      run: |
+        python -m pytest -v
+
+    # Run YAML linter
+    - name: Run yamllint
+      run: |
+        yamllint .
 
     # - name: Log in to Docker Hub
     #   uses: docker/login-action@v2
