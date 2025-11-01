@@ -69,9 +69,11 @@ jobs:
           if [ -z "${{ github.event.inputs.version }}" ]; then
             docker tag ${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT \
               ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT
-            docker push ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT
+            docker push \
+              ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT
           else
             docker tag ${{ env.IMAGE_NAME }}:$IMAGE_TAG_SHORT \
               ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}
-            docker push ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}
+            docker push \
+              ${{ env.USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.event.inputs.version }}
           fi
