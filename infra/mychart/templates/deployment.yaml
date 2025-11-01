@@ -28,3 +28,33 @@ spec:
                 configMapKeyRef:
                   name: {{ .Values.appName }}-config
                   key: APP_VERSION
+
+          # --- Resource Requests and Limits ---
+          resources:
+            requests:
+              cpu: "100m"        # Minimum CPU the container is guaranteed
+              memory: "128Mi"    # Minimum memory guaranteed
+            limits:
+              cpu: "500m"        # Maximum CPU the container can use
+              memory: "256Mi"    # Maximum memory the container can use
+
+          # --- Liveness Probe ---
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          # --- Readiness Probe ---
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 3
